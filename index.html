@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Image Crop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <u><h1>Please Upload an Image For Crop and Download</h1></u>
+        <div id="background" class="o_image">
+            <img id="sample" src="" />
+        </div>
+        <label class="custom-file-upload">
+            <input type="file" id="imageInput" onchange="loadFile(event)" accept="image/*">
+            Upload Image</label>
+        <div>
+            <button onclick="resizeTheImg()" id="apply" style="display:none">Crop</button>
+        </div>
+        <div class="p_image">
+            <canvas id="imageResult"></canvas>
+        </div>
+        <br>
+    <button id="download" onclick="download()">Download Crop Image</button>
+</body>
+<script src="./libs/qunit-2.0.1.js" type="text/javascript"></script>
+<script src="utils.js" type="text/javascript"></script>
+<script src="perspective.js" type="text/javascript"></script>
+<script src="./libs/d3.v3.min.js"></script>
+<script src="./libs/numeric-solve.min.js"></script>
+<script src="./index.js"></script>
+<script>
+    var loadFile = function (event) {
+        document.getElementsByClassName('custom-file-upload')[0].style.display="none";
+        var img = new Image();
+        img.onload = function () {
+            const imgWidth = img.width;
+            const imgHeight = img.height;
+            var ele = document.getElementById("sample");
+            ele.src = img.src;
+            attachCropBox(imgWidth, imgHeight)
+            document.getElementById('apply').style.display = "block"
+        }
+        img.src = URL.createObjectURL(event.target.files[0]);
+    };
+
+    function resizeTheImg() {
+        callPerspective();
+        document.getElementById('download').style.display = "block"
+    }
+</script>
+
+</html>
